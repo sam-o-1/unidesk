@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  STAFF
+}
+
+enum JobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(STAFF)
+  branch    Branch?  @relation(fields: [branchId], references: [id])
+  branchId  String?
+  createdAt DateTime @default(now())
+}
+
+model Branch {
+  id        String     @id @default(uuid())
+  name      String
+  address   String
+  employees Employee[]
+  jobs      Job[]
+  parts     Part[]
+  users     User[]
+  createdAt DateTime   @default(now())
+}
+
+model Employee {
+  id        String   @id @default(uuid())
+  name      String
+  role      String
+  branch    Branch   @relation(fields: [branchId], references: [id])
+  branchId  String
+  jobs      Job[]
+  createdAt DateTime @default(now())
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String
+  email     String?
+  jobs      Job[]
+  feedbacks Feedback[]
+  createdAt DateTime @default(now())
+}
+
+model Job {
+  id          String     @id @default(uuid())
+  branch      Branch     @relation(fields: [branchId], references: [id])
+  branchId    String
+  customer    Customer   @relation(fields: [customerId], references: [id])
+  customerId  String
+  employee    Employee?  @relation(fields: [employeeId], references: [id])
+  employeeId  String?
+  device      String
+  issue       String
+  status      JobStatus  @default(PENDING)
+  payment     Payment?
+  invoice     Invoice?
+  feedback    Feedback?
+  partsUsed   JobPart[]
+  createdAt   DateTime   @default(now())
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  job       Job      @relation(fields: [jobId], references: [id])
+  jobId     String   @unique
+  amount    Float
+  method    String
+  paidAt    DateTime @default(now())
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  job           Job      @relation(fields: [jobId], references: [id])
+  jobId         String   @unique
+  invoiceNumber String
+  fileUrl       String?
+  extractedData Json?
+  createdAt     DateTime @default(now())
+}
+
+model Part {
+  id        String    @id @default(uuid())
+  name      String
+  quantity  Int
+  branch    Branch    @relation(fields: [branchId], references: [id])
+  branchId  String
+  jobsUsedIn JobPart[]
+}
+
+model JobPart {
+  id       String @id @default(uuid())
+  job      Job    @relation(fields: [jobId], references: [id])
+  jobId    String
+  part     Part   @relation(fields: [partId], references: [id])
+  partId   String
+  quantity Int
+}
+
+model Feedback {
+  id         String   @id @default(uuid())
+  job        Job      @relation(fields: [jobId], references: [id])
+  jobId      String   @unique
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  performedBy String
+  details   Json?
+  createdAt DateTime @default(now())
+}

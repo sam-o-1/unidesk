@@ -1,11 +1,14 @@
-   function App() {
-     return (
-       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-         <h1 className="text-4xl font-bold text-blue-600">
-           UNIDESK
-         </h1>
-       </div>
-     )
-   }
+import { Routes, Route } from 'react-router-dom'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
 
-   export default App
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  )
+}
+
+export default App

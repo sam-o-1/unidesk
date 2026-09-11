@@ -30,22 +30,22 @@
      }
 
      return (
-       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+       <div className="min-h-screen bg-bg flex items-center justify-center">
          <form
            onSubmit={handleSubmit}
-           className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"
+           className="bg-surface border border-border p-8 rounded-2xl w-full max-w-sm"
          >
-           <h1 className="text-2xl font-bold text-blue-600 mb-6 text-center">
+           <h1 className="text-2xl font-bold text-accent mb-6 text-center">
              UNIDESK Login
            </h1>
 
            {error && (
-             <div className="bg-red-100 text-red-700 text-sm p-2 rounded mb-4">
+             <div className="bg-red-500/10 border border-red-500/40 text-red-400 text-sm p-2 rounded-lg mb-4">
                {error}
              </div>
            )}
 
-           <label className="block text-sm font-medium text-gray-700 mb-1">
+           <label className="block text-sm font-medium text-text-muted mb-1">
              Email
            </label>
            <input
@@ -53,10 +53,10 @@
              value={email}
              onChange={(e) => setEmail(e.target.value)}
              required
-             className="w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+             className="w-full bg-bg border border-border rounded-lg px-3 py-2 mb-4 text-text focus:outline-none focus:ring-2 focus:ring-accent"
            />
 
-           <label className="block text-sm font-medium text-gray-700 mb-1">
+           <label className="block text-sm font-medium text-text-muted mb-1">
              Password
            </label>
            <input
@@ -64,13 +64,13 @@
              value={password}
              onChange={(e) => setPassword(e.target.value)}
              required
-             className="w-full border border-gray-300 rounded px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+             className="w-full bg-bg border border-border rounded-lg px-3 py-2 mb-6 text-text focus:outline-none focus:ring-2 focus:ring-accent"
            />
 
            <button
              type="submit"
              disabled={loading}
-             className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
+             className="w-full bg-accent hover:bg-accent-hover text-white font-semibold py-2 rounded-lg transition disabled:opacity-50"
            >
              {loading ? 'Logging in...' : 'Log In'}
            </button>

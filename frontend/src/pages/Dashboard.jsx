@@ -1,20 +1,27 @@
 import { useAuth } from '../context/AuthContext'
+import Sidebar from '../components/Sidebar'
 
 function Dashboard() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold text-blue-600 mb-2">
-        Welcome, {user?.name}!
-      </h1>
-      <p className="text-gray-600 mb-6">You're logged in as {user?.role}</p>
-      <button
-        onClick={logout}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-      >
-        Log Out
-      </button>
+    <div className="flex min-h-screen bg-bg">
+      <Sidebar />
+      <main className="flex-1 p-8">
+        <h1 className="text-2xl font-bold text-text mb-1">
+          Welcome, {user?.name}
+        </h1>
+        <p className="text-text-muted mb-6">
+          You&apos;re logged in as {user?.role}
+        </p>
+
+        <div className="bg-surface border border-border rounded-2xl p-5">
+          <p className="text-text-muted">
+            Use the sidebar to manage branches, employees, customers, jobs,
+            payments, inventory, invoices and feedback.
+          </p>
+        </div>
+      </main>
     </div>
   )
 }
